@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Singing Monsters - Island Designer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="title-icon">🎵</span>
+                    MSM Island Designer
+                    <span class="title-icon">🏝️</span>
+                </h1>
+                <div class="header-controls">
+                    <button class="btn btn-secondary" id="helpBtn">
+                        <span class="btn-icon">❓</span>
+                        Aide
+                    </button>
+                    <button class="btn btn-primary" id="exportBtn">
+                        <span class="btn-icon">📥</span>
+                        Exporter
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Island Selector -->
+                <div class="control-panel">
+                    <h3>Sélection d'île</h3>
+                    <select id="islandSelector" class="island-selector">
+                        <option value="plant">Plant Island</option>
+                        <option value="cold">Cold Island</option>
+                        <option value="air">Air Island</option>
+                        <option value="water">Water Island</option>
+                        <option value="earth">Earth Island</option>
+                        <option value="fire-oasis">Fire Oasis</option>
+                        <option value="fire-haven">Fire Haven</option>
+                        <option value="psychic">Psychic Island</option>
+                        <option value="faerie">Faerie Island</option>
+                        <option value="bone">Bone Island</option>
+                        <option value="light">Light Island</option>
+                    </select>
+                </div>
+
+                <!-- Tools -->
+                <div class="control-panel">
+                    <h3>Outils</h3>
+                    <div class="tool-buttons">
+                        <button class="tool-btn active" data-tool="place">
+                            <span class="tool-icon">🏗️</span>
+                            Placer
+                        </button>
+                        <button class="tool-btn" data-tool="move">
+                            <span class="tool-icon">👋</span>
+                            Déplacer
+                        </button>
+                        <button class="tool-btn" data-tool="delete">
+                            <span class="tool-icon">🗑️</span>
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Element Categories -->
+                <div class="control-panel">
+                    <h3>Éléments</h3>
+                    <div class="category-tabs">
+                        <button class="category-tab active" data-category="monsters">
+                            <span class="tab-icon">👹</span>
+                            Monstres
+                        </button>
+                        <button class="category-tab" data-category="decorations">
+                            <span class="tab-icon">🌳</span>
+                            Décos
+                        </button>
+                        <button class="category-tab" data-category="structures">
+                            <span class="tab-icon">🏢</span>
+                            Structures
+                        </button>
+                        <button class="category-tab" data-category="paths">
+                            <span class="tab-icon">🛤️</span>
+                            Chemins
+                        </button>
+                    </div>
+                    
+                    <div class="elements-grid" id="elementsGrid">
+                        <!-- Elements will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Grid Controls -->
+                <div class="control-panel">
+                    <h3>Affichage</h3>
+                    <div class="grid-controls">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showGrid" checked>
+                            <span class="checkbox-custom"></span>
+                            Afficher la grille
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="snapToGrid" checked>
+                            <span class="checkbox-custom"></span>
+                            Aimanter à la grille
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Zoom Controls -->
+                <div class="control-panel">
+                    <h3>Zoom</h3>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoomOut">-</button>
+                        <input type="range" id="zoomSlider" min="0.5" max="3" step="0.1" value="1">
+                        <button class="zoom-btn" id="zoomIn">+</button>
+                    </div>
+                    <div class="zoom-value">
+                        <span id="zoomValue">100%</span>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="control-panel">
+                    <h3>Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" id="undoBtn">
+                            <span class="btn-icon">↶</span>
+                            Annuler
+                        </button>
+                        <button class="btn btn-outline" id="redoBtn">
+                            <span class="btn-icon">↷</span>
+                            Refaire
+                        </button>
+                        <button class="btn btn-warning" id="clearBtn">
+                            <span class="btn-icon">🗑️</span>
+                            Tout effacer
+                        </button>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Canvas Area -->
+            <div class="canvas-container">
+                <div class="canvas-toolbar">
+                    <div class="canvas-info">
+                        <span id="canvasInfo">Plant Island - Grille 20x20</span>
+                    </div>
+                    <div class="canvas-actions">
+                        <button class="btn btn-small" id="centerView">
+                            <span class="btn-icon">🎯</span>
+                            Centrer
+                        </button>
+                        <button class="btn btn-small" id="fitView">
+                            <span class="btn-icon">🔍</span>
+                            Ajuster
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="canvas-viewport" id="canvasViewport">
+                    <div class="island-canvas" id="islandCanvas">
+                        <div class="island-background" id="islandBackground"></div>
+                        <div class="grid-overlay" id="gridOverlay"></div>
+                        <div class="elements-layer" id="elementsLayer"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Export Modal -->
+    <div class="modal" id="exportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Exporter votre île</h2>
+                <button class="modal-close" id="closeExportModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <h3>Options d'export</h3>
+                    <div class="export-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exportGrid" checked>
+                            <span class="checkbox-custom"></span>
+                            Inclure la grille
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exportMonsters" checked>
+                            <span class="checkbox-custom"></span>
+                            Inclure les monstres
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exportDecorations" checked>
+                            <span class="checkbox-custom"></span>
+                            Inclure les décorations
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exportStructures" checked>
+                            <span class="checkbox-custom"></span>
+                            Inclure les structures
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exportPaths" checked>
+                            <span class="checkbox-custom"></span>
+                            Inclure les chemins
+                        </label>
+                    </div>
+                    
+                    <div class="export-format">
+                        <h4>Format</h4>
+                        <select id="exportFormat">
+                            <option value="png">PNG (Haute qualité)</option>
+                            <option value="jpeg">JPEG (Taille réduite)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="export-resolution">
+                        <h4>Résolution</h4>
+                        <select id="exportResolution">
+                            <option value="1">1x (Original)</option>
+                            <option value="2" selected>2x (Haute résolution)</option>
+                            <option value="3">3x (Très haute résolution)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="export-preview">
+                    <h3>Aperçu</h3>
+                    <canvas id="exportPreview" width="300" height="200"></canvas>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelExport">Annuler</button>
+                <button class="btn btn-primary" id="downloadExport">
+                    <span class="btn-icon">📥</span>
+                    Télécharger
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal" id="helpModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Guide d'utilisation</h2>
+                <button class="modal-close" id="closeHelpModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-content">
+                    <h3>🎯 Comment utiliser MSM Island Designer</h3>
+                    
+                    <div class="help-section">
+                        <h4>🏝️ Sélection d'île</h4>
+                        <p>Choisissez votre île dans le menu déroulant. Chaque île a ses propres dimensions et apparence.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🏗️ Placement d'éléments</h4>
+                        <p>1. Sélectionnez l'outil "Placer"<br>
+                        2. Choisissez une catégorie (Monstres, Décorations, etc.)<br>
+                        3. Cliquez sur un élément dans la palette<br>
+                        4. Cliquez sur l'île pour le placer</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>👋 Déplacement</h4>
+                        <p>Utilisez l'outil "Déplacer" puis cliquez et glissez les éléments sur l'île.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🗑️ Suppression</h4>
+                        <p>Sélectionnez l'outil "Supprimer" puis cliquez sur les éléments à retirer.</p>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>📥 Export</h4>
+                        <p>Cliquez sur "Exporter" pour télécharger votre création. Vous pouvez choisir quels éléments inclure dans l'image finale.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="closeHelp">Compris !</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/island-data.js"></script>
+    <script src="js/elements-data.js"></script>
+    <script src="js/drag-drop.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
